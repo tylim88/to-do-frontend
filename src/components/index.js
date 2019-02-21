@@ -5,7 +5,7 @@ import ListItem from './ListItem'
 import Login from './Login'
 import MessageBox from './MessageBox'
 import NavBar from './NavBar'
-import SignUp from './Login'
+import SignUp from './SignUp'
 
 export {
     SignUp,
