@@ -28,22 +28,29 @@ class ToDoContainer extends Container {
     // priority database
     initialize = async () => {
         const jwt = localStorage.getItem('jwt')
+        const cache = localStorage.getItem('toDoList')
         if (jwt) {
             await request
                 .get('http://127.0.0.1:5000/getItems')
                 .set('Authorization', jwt)
-                .then((res) => {
-                    const {
-                        body: { username, state },
-                    } = res
-                    this.setAll(state)
-                    userContainer.setState({
-                        login: true,
-                        username,
-                    })
-                })
+                .then(
+                    (res) => {
+                        const {
+                            body: { username, state },
+                        } = res
+                        this.setAll(state)
+                        userContainer.setState({
+                            login: true,
+                            username,
+                        })
+                    },
+                    () => {
+                        if (cache) {
+                            this.setAll(cache)
+                        }
+                    }
+                )
         } else {
-            const cache = localStorage.getItem('toDoList')
             if (cache) {
                 this.setAll(cache)
             }
