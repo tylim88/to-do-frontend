@@ -13,11 +13,16 @@ class ToDoContainer extends Container {
 
     // store state in local storage and database
     storeData = async () => {
-        await request
-            .post('https://flask.tylim.com/storeData')
-            .send(this.state)
-            .then(() => {}, (err) => console.log(err))
-        localStorage.setItem('toDoList', JSON.stringify(this.state))
+        const state = JSON.stringify(this.state)
+        const jwt = localStorage.getItem('jwt')
+        localStorage.setItem('toDoList', state)
+        if (userContainer.state.login && jwt) {
+            request
+                .post('http://127.0.0.1:5000/updateItems')
+                .set('Authorization', jwt)
+                .send({ state })
+                .then(() => {}, () => {})
+        }
     }
     // restore data from local storage or database
     // priority database
