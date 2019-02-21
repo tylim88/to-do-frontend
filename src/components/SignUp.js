@@ -50,7 +50,8 @@ class SignUp extends Component {
                                             <InputGroup.Prepend>
                                                 <Form.Control
                                                     maxLength="20"
-                                                    type="username"
+                                                    name="name"
+                                                    autoComplete="name"
                                                     placeholder="At least 3 characters."
                                                     onChange={(e) => {
                                                         const username =
