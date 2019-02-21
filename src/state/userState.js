@@ -24,7 +24,7 @@ const initState = {
 }
 
 class UserContainer extends Container {
-    state = initState
+    state = { ...initState }
 
     toggleSignUpWindow = () => {
         return this.setState((state) => {

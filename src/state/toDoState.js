@@ -9,7 +9,7 @@ const initState = {
 }
 
 class ToDoContainer extends Container {
-    state = initState
+    state = { ...initState }
 
     // store state in local storage and database
     storeData = async () => {
@@ -65,7 +65,14 @@ class ToDoContainer extends Container {
     }
 
     initializeState = () => {
-        this.setState({ ...initState })
+        // some weird bug that cause initState tied to this.state
+        // so i created a new one
+        const initState = {
+            todo: [],
+            filter: 'All',
+            stat: [0, 0, 0],
+        }
+        this.setState({ ...initState }, () => {})
     }
 
     // input add item
