@@ -31,7 +31,7 @@ class NavBar extends Component {
                                             className="nav-button"
                                             variant="outline-primary"
                                             onClick={() => {
-                                                login()
+                                                logout()
                                             }}
                                         >
                                             Sign Out
