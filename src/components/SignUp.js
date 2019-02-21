@@ -35,6 +35,7 @@ class SignUp extends Component {
                         setPassword,
                         setEmail,
                     } = user
+
                     return (
                         <Modal show={signUpModal} onHide={toggleSignUpWindow}>
                             <Modal.Dialog>
