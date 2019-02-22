@@ -12,13 +12,13 @@ class ToDoContainer extends Container {
     state = { ...initState }
 
     // store state in local storage and database
-    storeData = async () => {
+    updateData = async () => {
         const state = JSON.stringify(this.state)
         const jwt = localStorage.getItem('jwt')
         localStorage.setItem('toDoList', state)
         if (userContainer.state.login && jwt) {
             request
-                .post(`${process.env.REACT_APP_URL}updateItems`)
+                .put(`${process.env.REACT_APP_URL}updateItems`)
                 .set('Authorization', jwt)
                 .send({ state })
                 .then(() => {}, () => {})
@@ -97,7 +97,7 @@ class ToDoContainer extends Container {
                 return state
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
@@ -119,7 +119,7 @@ class ToDoContainer extends Container {
                 return state
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
@@ -150,7 +150,7 @@ class ToDoContainer extends Container {
                 return state
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
@@ -173,7 +173,7 @@ class ToDoContainer extends Container {
                 }
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
@@ -191,7 +191,7 @@ class ToDoContainer extends Container {
                 return state
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
@@ -215,7 +215,7 @@ class ToDoContainer extends Container {
                 return state
             },
             () => {
-                this.storeData()
+                this.updateData()
             }
         )
     }
