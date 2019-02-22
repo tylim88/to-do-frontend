@@ -77,7 +77,7 @@ class UserContainer extends Container {
         })
 
         await request
-            .post('http://127.0.0.1:5000/signUp')
+            .post(`${process.env.REACT_APP_URL}signUp`)
             .send({
                 username,
                 email,
@@ -134,7 +134,7 @@ class UserContainer extends Container {
         })
 
         await request
-            .post('http://127.0.0.1:5000/login')
+            .post(`${process.env.REACT_APP_URL}login`)
             .send({ username, password })
             .then(
                 (res) => {
@@ -184,7 +184,7 @@ class UserContainer extends Container {
     validateUsername = async (username) => {
         this.setState({ usernameLoading: true, validUsername: true, username })
         return request
-            .post(`http://127.0.0.1:5000/usernameValidation`)
+            .post(`${process.env.REACT_APP_URL}usernameValidation`)
             .send({ username })
 
             .then(
@@ -212,7 +212,7 @@ class UserContainer extends Container {
     validateEmail = async (email) => {
         this.setState({ emailLoading: true, validEmail: true, email })
         return request
-            .post(`http://127.0.0.1:5000/emailValidation`)
+            .post(`${process.env.REACT_APP_URL}emailValidation`)
             .send({ email })
             .then(
                 (res) => {

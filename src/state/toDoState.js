@@ -18,7 +18,7 @@ class ToDoContainer extends Container {
         localStorage.setItem('toDoList', state)
         if (userContainer.state.login && jwt) {
             request
-                .post('http://127.0.0.1:5000/updateItems')
+                .post(`${process.env.REACT_APP_URL}updateItems`)
                 .set('Authorization', jwt)
                 .send({ state })
                 .then(() => {}, () => {})
@@ -31,7 +31,7 @@ class ToDoContainer extends Container {
         const cache = localStorage.getItem('toDoList')
         if (jwt) {
             await request
-                .get('http://127.0.0.1:5000/getItems')
+                .get(`${process.env.REACT_APP_URL}getItems`)
                 .set('Authorization', jwt)
                 .then(
                     (res) => {
