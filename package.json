@@ -18,7 +18,7 @@
     },
     "scripts": {
         "dev": "env-cmd ./.config/dev.env react-scripts start",
-        "dbuild": "env-cmd ./.config/dev.env react-scripts build",
+        "duild": "env-cmd ./.config/dev.env react-scripts build",
         "start": "env-cmd ./.config/prod.env react-scripts start",
         "build": "env-cmd ./.config/prod.env react-scripts build",
         "test": "react-scripts test",
