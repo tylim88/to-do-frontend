@@ -115,11 +115,18 @@ body {
 @media only screen and (min-width: 600px) {
     /* For tablets: */
     .size-device {
-        width: 60%;
+        width: 80%;
     }
 }
 
 @media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .size-device {
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
     /* For desktop: */
     .size-device {
         width: 40%;
