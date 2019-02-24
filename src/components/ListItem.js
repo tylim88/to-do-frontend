@@ -34,7 +34,7 @@ class ListItem extends Component {
             <>
                 <InputGroup
                     // container
-                    className="mb-1"
+                    className="mb-1 size-device"
                     onMouseEnter={() => {
                         this.setState({ deleteButton: true })
                     }}
