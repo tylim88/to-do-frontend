@@ -15,7 +15,7 @@ class Input extends React.Component {
                 {(toDo) => (
                     <InputGroup
                         // container
-                        className="mb-3 input-group-customize"
+                        className="mb-3 input-group-customize size-device"
                     >
                         <FormControl
                             // input field

@@ -15,7 +15,7 @@ class NavBar extends Component {
                         logout,
                     } = user
                     return (
-                        <Navbar bg="dark" className="nav">
+                        <Navbar bg="dark" className="nav size-device">
                             {login && (
                                 <Navbar.Brand
                                     href="#home"
