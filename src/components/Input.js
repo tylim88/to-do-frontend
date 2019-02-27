@@ -26,7 +26,7 @@ class Input extends React.Component {
                                     onSubmitText(toDo)
                                 }
                             }}
-                            ariaLabel="insert your item here"
+                            aria-label="insert your item here"
                         />
                         <InputGroup.Append>
                             <Button

@@ -74,7 +74,7 @@ class ListItem extends Component {
                                 input
                             }
                             className="list-item"
-                            ariaLabel="modify your item here"
+                            aria-label="modify your item here"
                         />
                     ) : (
                         <>
