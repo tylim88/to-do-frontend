@@ -2,6 +2,7 @@ import { Container } from 'unstated'
 import { toDoContainer } from '.'
 import request from 'superagent'
 import jwt from 'jsonwebtoken'
+import { updateDB_JWT, clearDB } from '../utils/db'
 
 const initState = {
     login: false,
@@ -66,7 +67,7 @@ class UserContainer extends Container {
         })
     }
 
-    fetchSignUp = async () => {
+    fetchSignUp = () => {
         const {
             state: { username, email, password },
         } = this
@@ -76,7 +77,7 @@ class UserContainer extends Container {
             message: 'Please Wait...',
         })
 
-        await request
+        request
             .post(`${process.env.REACT_APP_URL}signUp`)
             .send({
                 username,
@@ -90,7 +91,7 @@ class UserContainer extends Container {
                         body: { access_token },
                     } = res
 
-                    localStorage.setItem('jwt', `Bearer ${access_token}`)
+                    updateDB_JWT(`Bearer ${access_token}`)
 
                     return this.setState(
                         {
@@ -123,7 +124,7 @@ class UserContainer extends Container {
             )
     }
 
-    fetchLogin = async () => {
+    fetchLogin = () => {
         const {
             state: { username, password },
         } = this
@@ -133,55 +134,59 @@ class UserContainer extends Container {
             message: 'Please Wait...',
         })
 
-        await request
+        request
             .post(`${process.env.REACT_APP_URL}login`)
             .send({ username, password })
-            .then(
-                (res) => {
-                    const {
-                        body: { access_token, state },
-                    } = res
-
-                    localStorage.setItem('jwt', `Bearer ${access_token}`)
-                    toDoContainer.setAll(state)
-                    return this.setState(
-                        {
-                            message: 'login success!',
-                            login: 'true',
-                            username: jwt.decode(access_token).identity,
-                        },
-                        () => {
-                            setTimeout(() => {
-                                this.setState({
-                                    cancelAble: true,
-                                    loading: false,
-                                    loginModal: false,
-                                })
-                            }, 2000)
-                        }
-                    )
-                },
-                (err) => {
-                    return this.setState({
-                        loading: false,
-                        message:
-                            (err.response &&
-                                err.response.body &&
-                                err.response.body.message) ||
-                            'network error',
-                        cancelAble: true,
-                    })
+            .then((res) => {
+                if (!res.body.access_token) {
+                    throw new Error()
                 }
-            )
+                const {
+                    body: { access_token, state },
+                } = res
+
+                updateDB_JWT(`Bearer ${access_token}`)
+
+                toDoContainer.setAll(state)
+
+                return this.setState(
+                    {
+                        message: 'login success!',
+                        login: 'true',
+                        username: jwt.decode(access_token).identity,
+                    },
+                    () => {
+                        setTimeout(() => {
+                            this.setState({
+                                cancelAble: true,
+                                loading: false,
+                                loginModal: false,
+                            })
+                        }, 2000)
+                    }
+                )
+            })
+            .catch((err) => {
+                return this.setState({
+                    loading: false,
+                    message:
+                        (err.response &&
+                            err.response.body &&
+                            err.response.body.message) ||
+                        'network error',
+                    cancelAble: true,
+                })
+            })
     }
 
     logout = () => {
-        localStorage.clear()
+        clearDB()
+
         this.setState({ ...initState })
         toDoContainer.initializeState()
     }
 
-    validateUsername = async (username) => {
+    validateUsername = (username) => {
         this.setState({ usernameLoading: true, validUsername: true, username })
         return request
             .post(`${process.env.REACT_APP_URL}usernameValidation`)
@@ -209,7 +214,7 @@ class UserContainer extends Container {
             )
     }
 
-    validateEmail = async (email) => {
+    validateEmail = (email) => {
         this.setState({ emailLoading: true, validEmail: true, email })
         return request
             .post(`${process.env.REACT_APP_URL}emailValidation`)
@@ -265,14 +270,14 @@ class UserContainer extends Container {
         })
     }
 
-    setUsername = async (username) => {
+    setUsername = (username) => {
         this.state.username = username
     }
-    setEmail = async (email) => {
+    setEmail = (email) => {
         this.state.email = email
     }
 
-    setPassword = async (password) => {
+    setPassword = (password) => {
         this.state.password = password
     }
 }

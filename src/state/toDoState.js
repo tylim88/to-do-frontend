@@ -1,6 +1,7 @@
 import { Container } from 'unstated'
 import { userContainer } from '.'
 import request from 'superagent'
+import { updateDB_State, getDB_State, getDB_JWT } from '../utils/db'
 
 const initState = {
     todo: [],
@@ -14,8 +15,11 @@ class ToDoContainer extends Container {
     // store state in local storage and database
     updateData = async () => {
         const state = JSON.stringify(this.state)
-        const jwt = localStorage.getItem('jwt')
-        localStorage.setItem('toDoList', state)
+
+        const jwt = await getDB_JWT()
+
+        updateDB_State(state)
+
         if (userContainer.state.login && jwt) {
             request
                 .put(`${process.env.REACT_APP_URL}updateItems`)
@@ -27,10 +31,12 @@ class ToDoContainer extends Container {
     // restore data from local storage or database
     // priority database
     initialize = async () => {
-        const jwt = localStorage.getItem('jwt')
-        const cache = localStorage.getItem('toDoList')
+        const jwt = await getDB_JWT()
+
+        const cache = await getDB_State()
+
         if (jwt) {
-            await request
+            request
                 .get(`${process.env.REACT_APP_URL}getItems`)
                 .set('Authorization', jwt)
                 .then(
@@ -58,7 +64,8 @@ class ToDoContainer extends Container {
     }
 
     setAll = (dbState) => {
-        localStorage.setItem('toDoList', dbState)
+        updateDB_State(dbState)
+
         this.setState(() => {
             return JSON.parse(dbState)
         })
