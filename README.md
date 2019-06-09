@@ -3,4 +3,5 @@
 basically PWA version of
 https://github.com/tylim88/to-do-list-CSR
 
-work offline
+work offline, has persistent state
+
